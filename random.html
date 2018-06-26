@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random Facts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <style>
+        #fact {
+            display:none;
+        }
+
+        button {
+            width:50%;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card bg-primary text-white mt-5 p-4">
+                    <h1>Random Facts</h1>
+                    <p>Choose what random fact you would like to know</p>
+                    <div class="d-flex justify-content-between">
+                        <button id="randomTrivia" value="1" class="btn btn-dark m-1">Get random fact</button>
+                        <button id="randomYear" value="2" class="btn btn-secondary m-1">Get random year fact</button>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button id="randomDate" value="3" class="btn btn-warning m-1">Get random date fact</button>
+                        <button id="randomMath" value="4" class="btn btn-danger m-1">Get random math fact</button>
+                    </div>
+                    
+                    <div id="fact" class="card-body p-0 py-3">
+                        <h4 class="card-title">
+                            Random Fact
+                        </h4>
+                        <p id="factText" class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let fact = document.querySelector('#fact');
+        let factText = document.querySelector('#factText');
+
+        let randomType = 0;
+        document.getElementById('randomTrivia').addEventListener('click', getFactFetch);
+        document.getElementById('randomYear').addEventListener('click', getFactFetch);
+        document.getElementById('randomDate').addEventListener('click', getFactFetch);
+        document.getElementById('randomMath').addEventListener('click', getFactFetch);
+
+        // Fetch with Fetch API
+        function getFactFetch(e){
+            randomType = e.target.value;
+            
+            let fetchString = '';
+
+            switch(randomType.toString()) {
+                case '1':
+                    fetchString = 'trivia';
+                    break;
+                case '2':
+                    fetchString = 'year';
+                    break;
+                case '3': 
+                    fetchString = 'date';
+                    break;
+                case '4': 
+                    fetchString = 'math';
+                    break;
+            }
+    
+            fetch('http://numbersapi.com/random/'+fetchString)
+            .then(response => response.text())
+            .then(data => {
+                fact.style.display = 'block';
+                factText.innerText = data;
+            })
+            .catch(err => console.log(err)); 
+        }
+    </script>
+</body>
+</html>
